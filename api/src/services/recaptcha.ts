@@ -13,20 +13,16 @@ export async function verifyRecaptcha(token: string): Promise<boolean> {
     ? `${secretKey.substring(0, 8)}...${secretKey.substring(secretKey.length - 4)}` 
     : 'undefined';
   console.log(`[API] CAPTCHA verification started. Secret Key: ${maskedKey} (length: ${secretKey?.length})`);
+  console.log(`[API] CAPTCHA verification token received. Length: ${token?.length}, Prefix: ${token ? token.substring(0, 15) : 'undefined'}`);
 
   try {
-    const url = 'https://www.google.com/recaptcha/api/siteverify';
-    const params = new URLSearchParams({
-      secret: secretKey,
-      response: token
-    });
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}`;
 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params.toString()
+        'Content-Length': '0'
+      }
     });
 
     if (!response.ok) {
@@ -35,6 +31,7 @@ export async function verifyRecaptcha(token: string): Promise<boolean> {
     }
 
     const data: any = await response.json();
+    console.log('[API] CAPTCHA verification response data:', data);
     
     if (data && data.success) {
       console.log('[API] CAPTCHA verification successful.');
