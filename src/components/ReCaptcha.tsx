@@ -40,7 +40,11 @@ export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, on
           // Clear any existing children to prevent double renders in DevMode strict
           containerRef.current.innerHTML = '';
           
-          const widgetId = window.grecaptcha.render(containerRef.current, {
+          // Create a brand new child div to avoid "reCAPTCHA has already been rendered" error in Strict Mode
+          const widgetContainer = document.createElement('div');
+          containerRef.current.appendChild(widgetContainer);
+          
+          const widgetId = window.grecaptcha.render(widgetContainer, {
             sitekey: siteKey,
             callback: (token: string) => onChange(token),
             'expired-callback': () => onChange(null),
