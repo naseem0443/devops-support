@@ -113,7 +113,7 @@ To run and test the application locally, you need the following CLI tools instal
      "IsEncrypted": false,
      "Values": {
        "FUNCTIONS_WORKER_RUNTIME": "node",
-       "AzureWebJobsStorage": "",
+       "AzureWebJobsStorage": "UseDevelopmentStorage=true",
        "RECAPTCHA_SECRET_KEY": "<YOUR_PRIVATE_GOOGLE_RECAPTCHA_SECRET_KEY>",
        "SALESFORCE_OID": "<YOUR_SALESFORCE_ORG_ID>",
        "SALESFORCE_LEAD_SOURCE": "Website - DevOps Support",
