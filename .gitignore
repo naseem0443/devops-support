@@ -12,10 +12,8 @@ obj/
 
 # Local configuration files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
 # IDE configurations
 .vscode/
@@ -27,12 +25,12 @@ obj/
 *.sw?
 
 # Azure Functions specific
+api/local.settings.json
+api/node_modules/
+api/dist/
 /api/bin
 /api/obj
-/api/dist
 /api/out
-/api/node_modules
-/api/local.settings.json
 /api/.python_packages
 /api/.funcignore
 
@@ -50,3 +48,10 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# Azurite local emulator metadata/databases
+AzuriteConfig
+__azurite_db_*
+__blobstorage__/
+__queuestorage__/
+__tablestorage__/
