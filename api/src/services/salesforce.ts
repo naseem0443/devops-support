@@ -14,6 +14,40 @@ interface LeadPayload {
   message: string;
 }
 
+function normalizeLocationCodes(state: string, country: string): { stateCode: string; countryCode: string } {
+  const countryMap: Record<string, string> = {
+    'india': 'IN',
+    'united states': 'US',
+    'united states of america': 'US',
+    'usa': 'US',
+    'united kingdom': 'GB',
+    'uk': 'GB',
+    'canada': 'CA',
+    'australia': 'AU',
+    'germany': 'DE',
+    'france': 'FR'
+  };
+
+  const stateMap: Record<string, string> = {
+    'delhi': 'DL',
+    'new delhi': 'DL',
+    'bihar': 'BR',
+    'california': 'CA',
+    'texas': 'TX',
+    'new york': 'NY',
+    'florida': 'FL',
+    'washington': 'WA'
+  };
+
+  const cleanCountry = (country || '').trim().toLowerCase();
+  const cleanState = (state || '').trim().toLowerCase();
+
+  const countryCode = countryMap[cleanCountry] || (cleanCountry.length === 2 ? cleanCountry.toUpperCase() : country);
+  const stateCode = stateMap[cleanState] || (cleanState.length === 2 ? cleanState.toUpperCase() : state);
+
+  return { stateCode, countryCode };
+}
+
 export async function submitToSalesforce(payload: LeadPayload): Promise<boolean> {
   const oid = process.env.SALESFORCE_OID;
   const webToLeadUrl = process.env.SALESFORCE_WEB_TO_LEAD_URL || 'https://webto.salesforce.com/servlet/servlet.WebToLead';
@@ -55,8 +89,10 @@ export async function submitToSalesforce(payload: LeadPayload): Promise<boolean>
     formParams.append('email', payload.email);
     formParams.append('company', payload.company);
     formParams.append('city', payload.city);
-    formParams.append('country_code', payload.country);
-    formParams.append('state_code', payload.state);
+
+    const { stateCode, countryCode } = normalizeLocationCodes(payload.state, payload.country);
+    formParams.append('country_code', countryCode);
+    formParams.append('state_code', stateCode);
 
     // Map service and message to the specified target Salesforce fields
     formParams.append(serviceFieldName, payload.service);

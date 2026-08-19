@@ -42,6 +42,8 @@ describe('Azure Function API submitLead Tests', () => {
     process.env.SALESFORCE_LEAD_SOURCE = 'Website - DevOps Support';
     process.env.SALESFORCE_RETURN_URL = 'https://devops.pdfmasterpro.shop/contact';
     process.env.SALESFORCE_WEB_TO_LEAD_URL = 'https://webto.salesforce.com/servlet/servlet.WebToLead';
+    process.env.SALESFORCE_SERVICE_FIELD_NAME = '00Nbm00002q91U9';
+    process.env.SALESFORCE_DESCRIPTION_FIELD_NAME = '00Nbm00002q9HQr';
   });
 
   it('rejects requests with incorrect Content-Type', async () => {
@@ -225,5 +227,22 @@ describe('Azure Function API submitLead Tests', () => {
     
     // Assert fetch was called with correct salesforce urlencoded parameters
     expect(fetchMock).toHaveBeenCalledTimes(2);
+    
+    const sfCall = fetchMock.mock.calls[1];
+    expect(sfCall[0]).toBe('https://webto.salesforce.com/servlet/servlet.WebToLead');
+    
+    const bodyStr = sfCall[1].body;
+    const bodyParams = new URLSearchParams(bodyStr);
+    
+    expect(bodyParams.get('oid')).toBe('mock-salesforce-oid');
+    expect(bodyParams.get('first_name')).toBe('John');
+    expect(bodyParams.get('last_name')).toBe('Doe');
+    expect(bodyParams.get('email')).toBe('test-success@doe.com');
+    expect(bodyParams.get('company')).toBe('Acme Corp');
+    expect(bodyParams.get('city')).toBe('Seattle');
+    expect(bodyParams.get('country_code')).toBe('US'); // Converted from USA
+    expect(bodyParams.get('state_code')).toBe('WA'); // Converted from Washington
+    expect(bodyParams.get('00Nbm00002q91U9')).toBe('Cloud Engineering');
+    expect(bodyParams.get('00Nbm00002q9HQr')).toBe('Need help with cluster migration.');
   });
 });
