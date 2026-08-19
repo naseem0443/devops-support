@@ -1,4 +1,4 @@
-import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+import { useEffect, useRef, useImperativeHandle, forwardRef, useState } from 'react';
 
 export interface ReCaptchaRef {
   reset: () => void;
@@ -19,6 +19,7 @@ declare global {
 export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, onChange }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<number | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   useImperativeHandle(ref, () => ({
     reset: () => {
@@ -52,14 +53,22 @@ export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, on
       }
     };
 
+    const timeoutId = setTimeout(() => {
+      if (!window.grecaptcha || !window.grecaptcha.render) {
+        setLoadFailed(true);
+      }
+    }, 3500);
+
     if (window.grecaptcha && window.grecaptcha.render) {
+      clearTimeout(timeoutId);
       renderRecaptcha();
     } else {
-      // Check if global callback is already registered
       const oldCallback = window.onRecaptchaLoadCallback;
       window.onRecaptchaLoadCallback = () => {
         if (oldCallback) oldCallback();
         if (window.grecaptcha && active) {
+          clearTimeout(timeoutId);
+          setLoadFailed(false);
           renderRecaptcha();
         }
       };
@@ -72,24 +81,37 @@ export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, on
         script.defer = true;
         document.head.appendChild(script);
       } else {
-        // Script already exists but grecaptcha might not be fully initialized yet
         const interval = setInterval(() => {
           if (window.grecaptcha && window.grecaptcha.render) {
             clearInterval(interval);
+            clearTimeout(timeoutId);
+            setLoadFailed(false);
             if (active) renderRecaptcha();
           }
         }, 150);
         return () => {
           clearInterval(interval);
+          clearTimeout(timeoutId);
           active = false;
         };
       }
     }
 
     return () => {
+      clearTimeout(timeoutId);
       active = false;
     };
   }, [siteKey, onChange]);
+
+  if (loadFailed) {
+    return (
+      <div className="alert-box alert-error" style={{ fontSize: '0.85rem', padding: '0.75rem', marginTop: '0.5rem', borderRadius: '4px' }}>
+        <div>
+          <strong>Verification failed to load:</strong> It seems Google services are blocked. Please check if your browser ad-blocker or Brave Shields is blocking reCAPTCHA on `localhost`.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
