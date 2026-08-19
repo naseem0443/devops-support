@@ -1,6 +1,6 @@
 # Salesforce Web-to-Lead Configuration Guide
 
-This guide explains how to configure **Salesforce Web-to-Lead** to securely capture service and support requests submitted from **DevOps PDFMasterPro**.
+This guide explains how to configure **Salesforce Web-to-Lead** to securely capture service and support requests submitted from **DevOps Support**.
 
 ---
 

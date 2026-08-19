@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 env:
-  AZURE_FUNCTION_APP_NAME: 'func-devops-pdfmasterpro-prod' # Target Azure Function App name
+  AZURE_FUNCTION_APP_NAME: 'func-devops-support-prod' # Target Azure Function App name
   API_PACKAGE_PATH: 'api' # Path to Function source code
 
 jobs:
@@ -60,7 +60,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           echo "Verifying Azure Function App is running..."
-          az functionapp show --name ${{ env.AZURE_FUNCTION_APP_NAME }} --resource-group rg-devops-pdfmasterpro-prod
+          az functionapp show --name ${{ env.AZURE_FUNCTION_APP_NAME }} --resource-group rg-devops-support-prod
 
       - name: Deploy to Azure Function App
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

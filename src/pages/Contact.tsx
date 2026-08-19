@@ -220,7 +220,7 @@ export const Contact: React.FC = () => {
                 </div>
                 <div className="contact-detail-content">
                   <h4>Corporate Office</h4>
-                  <p>DevOps PDFMasterPro LLC</p>
+                  <p>DevOps Support LLC</p>
                   <p>San Francisco, CA, USA</p>
                 </div>
               </div>

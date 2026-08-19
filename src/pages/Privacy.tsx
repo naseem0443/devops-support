@@ -14,7 +14,7 @@ export const Privacy: React.FC = () => {
         <div className="container">
           <div className="prose">
             <p>
-              At DevOps PDFMasterPro, we respect your privacy and are committed to protecting any personal information you provide when using our website and contacting our team.
+              At DevOps Support, we respect your privacy and are committed to protecting any personal information you provide when using our website and contacting our team.
             </p>
 
             <h3>1. Information Collection</h3>

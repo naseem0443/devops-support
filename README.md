@@ -1,4 +1,4 @@
-# DevOps PDFMasterPro - Support Portal
+# DevOps Support - Support Portal
 
 A completely new production-ready cloud application and website serving as a DevOps, Cloud, and Kubernetes professional services request platform.
 

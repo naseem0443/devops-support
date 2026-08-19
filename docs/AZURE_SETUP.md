@@ -1,14 +1,14 @@
 # Azure Cloud Architecture Setup Guide
 
-This document explains the steps to provision and configure the production Azure cloud infrastructure for **DevOps PDFMasterPro**.
+This document explains the steps to provision and configure the production Azure cloud infrastructure for **DevOps Support**.
 
 ## Architecture Components
 
-1. **Resource Group**: `rg-devops-pdfmasterpro-prod`
-2. **Azure Static Web App (SWA)**: `swa-devops-pdfmasterpro-prod`
-3. **Azure Function App**: `func-devops-pdfmasterpro-prod`
-4. **User Assigned Managed Identity (UAMI)**: `func-devops-pdfmasterpro-prod-uami`
-5. **Azure Key Vault**: `kv-devops-pdfmasterpro-prod-01`
+1. **Resource Group**: `rg-devops-support-prod`
+2. **Azure Static Web App (SWA)**: `swa-devops-support-prod`
+3. **Azure Function App**: `func-devops-support-prod`
+4. **User Assigned Managed Identity (UAMI)**: `func-devops-support-prod-uami`
+5. **Azure Key Vault**: `kv-devops-support-prod-01`
 6. **Application Insights**: Combined monitoring and logging sink.
 
 ---
@@ -29,11 +29,11 @@ az account set --subscription "<SUBSCRIPTION_ID>"
 export SUBSCRIPTION_ID="<SUBSCRIPTION_ID>"
 export TENANT_ID="<TENANT_ID>"
 export LOCATION="eastus" # Choose your closest supported region
-export RESOURCE_GROUP="rg-devops-pdfmasterpro-prod"
-export KEY_VAULT="kv-devops-pdfmasterpro-prod-01"
-export MANAGED_IDENTITY="func-devops-pdfmasterpro-prod-uami"
-export FUNCTION_APP="func-devops-pdfmasterpro-prod"
-export STATIC_WEB_APP="swa-devops-pdfmasterpro-prod"
+export RESOURCE_GROUP="rg-devops-support-prod"
+export KEY_VAULT="kv-devops-support-prod-01"
+export MANAGED_IDENTITY="func-devops-support-prod-uami"
+export FUNCTION_APP="func-devops-support-prod"
+export STATIC_WEB_APP="swa-devops-support-prod"
 ```
 
 ---
@@ -224,7 +224,7 @@ Copy the deployment API token returned by the command and configure it as a GitH
 
 To link `devops.pdfmasterpro.shop` to your Static Web App:
 
-1. In the Azure Portal, navigate to your Static Web App `swa-devops-pdfmasterpro-prod`.
+1. In the Azure Portal, navigate to your Static Web App `swa-devops-support-prod`.
 2. Under **Custom Domains**, click **Add** and select **Custom domain on other DNS**.
 3. Enter `devops.pdfmasterpro.shop`.
 4. Azure will output DNS mapping instructions:

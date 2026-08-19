@@ -20,7 +20,7 @@ export const Terms: React.FC = () => {
             </div>
 
             <p>
-              Welcome to the website of DevOps PDFMasterPro ("we", "us", "our"). By accessing or using our website located at https://devops.pdfmasterpro.shop and submitting service requests, you agree to comply with and be bound by the following Terms of Service.
+              Welcome to the website of DevOps Support ("we", "us", "our"). By accessing or using our website located at https://devops.pdfmasterpro.shop and submitting service requests, you agree to comply with and be bound by the following Terms of Service.
             </p>
 
             <h3>1. Use of the Site</h3>
@@ -43,7 +43,7 @@ export const Terms: React.FC = () => {
               All general information, diagrams, configurations, and technology options described on this website (such as CI/CD visualizers or Kubernetes diagrams) are provided for illustrative purposes only. They do not constitute formal architectural binding contracts.
             </p>
             <p>
-              DevOps PDFMasterPro is not liable for errors in third-party integrations (including Google reCAPTCHA and Salesforce Web-to-Lead), nor are we responsible for configuration changes executed outside a signed Statement of Work.
+              DevOps Support is not liable for errors in third-party integrations (including Google reCAPTCHA and Salesforce Web-to-Lead), nor are we responsible for configuration changes executed outside a signed Statement of Work.
             </p>
 
             <h3>4. Governing Law</h3>

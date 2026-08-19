@@ -1,7 +1,7 @@
 {
-  "name": "devops-pdfmasterpro-api",
+  "name": "devops-support-api",
   "version": "1.0.0",
-  "description": "Azure Functions API for DevOps PDFMasterPro Lead Submission",
+  "description": "Azure Functions API for DevOps Support Lead Submission",
   "main": "dist/src/functions/*.js",
   "scripts": {
     "build": "tsc",

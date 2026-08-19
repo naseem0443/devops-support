@@ -26,7 +26,7 @@ Run the following commands in the Azure CLI to register a deployment service pri
 
 ```bash
 # 1. Create an Entra ID Application Registration
-export APP_NAME="github-actions-devops-pdfmasterpro"
+export APP_NAME="github-actions-devops-support"
 export APP_ID=$(az ad app create --display-name $APP_NAME --query appId --output tsv)
 
 # 2. Create a Service Principal associated with the App
@@ -74,7 +74,7 @@ Assign the service principal permissions to deploy to your Azure Function and St
 
 ```bash
 # Get resource group scope ID
-export RG_ID=$(az group show --name rg-devops-pdfmasterpro-prod --query id --output tsv)
+export RG_ID=$(az group show --name rg-devops-support-prod --query id --output tsv)
 
 # Assign 'Contributor' role on the Resource Group scope
 # This allows the pipeline to update and deploy Function App packages and swap domains

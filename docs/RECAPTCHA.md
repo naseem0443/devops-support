@@ -1,6 +1,6 @@
 # Google reCAPTCHA v2 Configuration Guide
 
-To protect the contact form from spam, bots, and automated submission flooding, **DevOps PDFMasterPro** utilizes **Google reCAPTCHA v2 Checkbox ("I'm not a robot")**.
+To protect the contact form from spam, bots, and automated submission flooding, **DevOps Support** utilizes **Google reCAPTCHA v2 Checkbox ("I'm not a robot")**.
 
 ---
 
@@ -12,7 +12,7 @@ To obtain keys:
 2. Log in with a Google Workspace or Gmail account.
 3. Click the **Register new site** (+) button.
 4. Fill in the registration form:
-   - **Label**: `DevOps PDFMasterPro Production`
+   - **Label**: `DevOps Support Production`
    - **reCAPTCHA type**: Select **reCAPTCHA v2** and then **"I'm not a robot" Checkbox**.
    - **Domains**: Add the following domains (do not include paths or protocols):
      - `devops.pdfmasterpro.shop` (Production domain)

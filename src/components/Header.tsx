@@ -31,7 +31,7 @@ export const Header: React.FC = () => {
       <div className="container header-container">
         <NavLink to="/" className="logo" onClick={handleNavClick}>
           <Terminal size={24} className="logo-icon" style={{ color: 'var(--accent-cyan)' }} />
-          <span>DevOps PDFMasterPro</span>
+          <span>DevOps Support</span>
         </NavLink>
 
         <button 

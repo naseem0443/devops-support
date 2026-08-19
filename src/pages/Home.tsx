@@ -118,11 +118,11 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Why DevOps PDFMasterPro */}
+      {/* Why DevOps Support */}
       <section className="section section-alt">
         <div className="container">
           <div className="section-title-wrap text-center">
-            <h2>Why DevOps PDFMasterPro</h2>
+            <h2>Why DevOps Support</h2>
             <p>Our foundation is built on three core pillars designed to deliver robust, high-performance infrastructures.</p>
           </div>
           <div className="grid-3">

@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
           <div className="footer-brand">
             <Link to="/" className="logo" style={{ marginBottom: '1.5rem', display: 'flex' }}>
               <Terminal size={20} className="logo-icon" style={{ color: 'var(--accent-cyan)' }} />
-              <span>DevOps PDFMasterPro</span>
+              <span>DevOps Support</span>
             </Link>
             <p style={{ fontStyle: 'italic', color: 'var(--accent-cyan)', marginBottom: '1rem', fontWeight: 600 }}>
               "Build. Automate. Scale. Secure."
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} DevOps PDFMasterPro. All rights reserved.</p>
+          <p>&copy; {currentYear} DevOps Support. All rights reserved.</p>
           <p>
             Designed & Engineered for Production Reliability.
           </p>

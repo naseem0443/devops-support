@@ -60,7 +60,7 @@ export const About: React.FC = () => {
             <div>
               <h2 style={{ marginBottom: '1.5rem' }}>Engineering Reliable Platforms</h2>
               <p>
-                At DevOps PDFMasterPro, our mission is to simplify software deployment and optimize system reliability. Modern application hosting environments require high coordination between developer requirements and cloud operations.
+                At DevOps Support, our mission is to simplify software deployment and optimize system reliability. Modern application hosting environments require high coordination between developer requirements and cloud operations.
               </p>
               <p>
                 We collaborate with development teams to configure pipelines that build, test, and release container images seamlessly, while provisioning underling cloud infrastructure with consistent security controls.
