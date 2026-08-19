@@ -9,7 +9,10 @@ export async function verifyRecaptcha(token: string): Promise<boolean> {
   }
 
   // Never log the secret key or raw recaptcha token in logs
-  console.log('[API] CAPTCHA verification started.');
+  const maskedKey = secretKey 
+    ? `${secretKey.substring(0, 8)}...${secretKey.substring(secretKey.length - 4)}` 
+    : 'undefined';
+  console.log(`[API] CAPTCHA verification started. Secret Key: ${maskedKey} (length: ${secretKey?.length})`);
 
   try {
     const url = 'https://www.google.com/recaptcha/api/siteverify';

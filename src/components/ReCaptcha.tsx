@@ -20,12 +20,14 @@ export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, on
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<number | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
 
   useImperativeHandle(ref, () => ({
     reset: () => {
       if (window.grecaptcha && widgetIdRef.current !== null) {
         window.grecaptcha.reset(widgetIdRef.current);
-        onChange(null);
+        onChangeRef.current(null);
       }
     }
   }));
@@ -46,9 +48,9 @@ export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, on
           
           const widgetId = window.grecaptcha.render(widgetContainer, {
             sitekey: siteKey,
-            callback: (token: string) => onChange(token),
-            'expired-callback': () => onChange(null),
-            'error-callback': () => onChange(null),
+            callback: (token: string) => onChangeRef.current(token),
+            'expired-callback': () => onChangeRef.current(null),
+            'error-callback': () => onChangeRef.current(null),
           });
           widgetIdRef.current = widgetId;
         }
@@ -105,7 +107,7 @@ export const ReCaptcha = forwardRef<ReCaptchaRef, ReCaptchaProps>(({ siteKey, on
       clearTimeout(timeoutId);
       active = false;
     };
-  }, [siteKey, onChange]);
+  }, [siteKey]);
 
   if (loadFailed) {
     return (
