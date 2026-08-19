@@ -1,0 +1,21 @@
+{
+  "name": "devops-pdfmasterpro-api",
+  "version": "1.0.0",
+  "description": "Azure Functions API for DevOps PDFMasterPro Lead Submission",
+  "main": "dist/src/functions/*.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "rimraf dist",
+    "prestart": "npm run build",
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
+  }
+}
