@@ -21,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
+
+      # 1. Checkout source
       - name: Checkout source
         uses: actions/checkout@v4
 
@@ -43,15 +44,15 @@ jobs:
         working-directory: api
         run: npm run build
 
-      # 5. Azure login using OIDC
+      # 5. Azure login using GitHub OIDC
       - name: Azure Login
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # 6. Deploy Function App
+      # 6. Deploy Azure Function
       - name: Deploy Azure Function
         uses: Azure/functions-action@v1
         with:
