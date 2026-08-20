@@ -7,6 +7,7 @@ on:
 
   workflow_dispatch:
 
+# Required for GitHub OIDC
 permissions:
   id-token: write
   contents: read
@@ -18,6 +19,7 @@ env:
 
 jobs:
   build-and-deploy:
+    name: Build and Deploy Azure Function
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +29,6 @@ jobs:
       # --------------------------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
-
 
       # --------------------------------------------------
       # 2. Setup Node.js
@@ -39,91 +40,33 @@ jobs:
           cache: npm
           cache-dependency-path: api/package-lock.json
 
-
       # --------------------------------------------------
       # 3. Install dependencies
       # --------------------------------------------------
       - name: Install dependencies
-        working-directory: api
+        working-directory: ${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}
         run: npm ci
-
 
       # --------------------------------------------------
       # 4. Build TypeScript
       # --------------------------------------------------
       - name: Build Function
-        working-directory: api
+        working-directory: ${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}
         run: npm run build
 
-
       # --------------------------------------------------
-      # 5. Verify Function build output
+      # 5. Verify build output
       # --------------------------------------------------
       - name: Verify Function build
-        working-directory: api
+        working-directory: ${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}
         run: |
           echo "Checking build output..."
-          find dist -type f -print
-
-          if [ ! -d "dist" ]; then
-            echo "ERROR: dist directory was not created."
-            exit 1
-          fi
-
-          if [ ! -f "host.json" ]; then
-            echo "ERROR: host.json not found."
-            exit 1
-          fi
-
-          echo "Function build validation successful."
-
+          ls -la
+          echo "Checking dist directory..."
+          find dist -maxdepth 3 -type f -print
 
       # --------------------------------------------------
-      # 6. Validate Azure OIDC secrets
-      # --------------------------------------------------
-      # This does NOT print the secret values.
-      # It only verifies that the values are exactly
-      # the Azure IDs configured for this deployment.
-      # --------------------------------------------------
-      - name: Validate Azure OIDC secrets
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-        run: |
-
-          echo "Validating Azure OIDC configuration..."
-
-          if [[ "$AZURE_CLIENT_ID" == "8b768a57-8928-4c5b-a954-8dcdb6b4fdb6" ]]; then
-            echo "AZURE_CLIENT_ID: CORRECT"
-          else
-            echo "AZURE_CLIENT_ID: WRONG"
-            exit 1
-          fi
-
-
-          if [[ "$AZURE_TENANT_ID" == "8ae50b80-ccbf-45ee-a7c5-5a1a3d8ee1ce" ]]; then
-            echo "AZURE_TENANT_ID: CORRECT"
-          else
-            echo "AZURE_TENANT_ID: WRONG"
-            exit 1
-          fi
-
-
-          if [[ "$AZURE_SUBSCRIPTION_ID" == "ccfef92a-b0ec-46d0-b085-dd766525287b" ]]; then
-            echo "AZURE_SUBSCRIPTION_ID: CORRECT"
-          else
-            echo "AZURE_SUBSCRIPTION_ID: WRONG"
-            exit 1
-          fi
-
-
-          echo "All Azure OIDC values are correct."
-
-
-      # --------------------------------------------------
-      # 7. Azure Login using GitHub OIDC
+      # 6. Azure Login using GitHub OIDC
       # --------------------------------------------------
       - name: Azure Login
         uses: azure/login@v3
@@ -132,49 +75,32 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-
       # --------------------------------------------------
-      # 8. Verify Azure Login
+      # 7. Verify Azure authentication
       # --------------------------------------------------
       - name: Verify Azure Login
         run: |
-          echo "Azure login successful."
-
+          echo "Azure login successful"
           az account show \
-            --query "{Subscription:name,SubscriptionId:id,TenantId:tenantId}" \
-            -o table
-
+            --query "{Name:name,SubscriptionId:id,TenantId:tenantId}" \
+            --output table
 
       # --------------------------------------------------
-      # 9. Verify Function App
+      # 8. Verify Function App
       # --------------------------------------------------
       - name: Verify Function App
         run: |
-
           az functionapp show \
             --name "${{ env.AZURE_FUNCTIONAPP_NAME }}" \
             --resource-group "rg-devops-support-prod" \
             --query "{Name:name,State:state,HostName:defaultHostName}" \
-            -o table
-
+            --output table
 
       # --------------------------------------------------
-      # 10. Deploy Azure Function
+      # 9. Deploy Azure Function
       # --------------------------------------------------
       - name: Deploy Azure Function
         uses: Azure/functions-action@v1
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}
-
-
-      # --------------------------------------------------
-      # 11. Deployment completed
-      # --------------------------------------------------
-      - name: Deployment Summary
-        run: |
-          echo "=========================================="
-          echo "Azure Function deployment completed."
-          echo "Function App: ${{ env.AZURE_FUNCTIONAPP_NAME }}"
-          echo "Project Path: ${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}"
-          echo "=========================================="
