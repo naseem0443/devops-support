@@ -14,6 +14,7 @@ obj/
 .env
 .env.*
 !.env.example
+!.env.production
 
 # IDE configurations
 .vscode/
